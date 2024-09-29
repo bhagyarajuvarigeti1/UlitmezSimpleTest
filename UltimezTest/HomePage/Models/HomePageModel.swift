@@ -10,8 +10,8 @@ import Foundation
 
 // MARK: - HomPageModel
 class HomePageModel: Codable {
-    let results: [Result]
-    let pagination: Pagination
+    var results: [Result]
+    var pagination: Pagination
     
     init(results: [Result], pagination: Pagination) {
         self.results = results

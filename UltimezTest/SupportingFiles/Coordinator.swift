@@ -3,8 +3,24 @@
 import SwiftUI
 
 enum AppPages: Hashable {
+    
+    
+   
     case homePage
-    case detail
+    case detail(Result)
+    
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .homePage:
+            hasher.combine("homePage")
+        case .detail(let result):
+            hasher.combine("detial")
+        }
+    }
+    
+    static func == (lhs: AppPages, rhs: AppPages) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
 }
 
 enum Sheet: String, Identifiable {
@@ -60,8 +76,8 @@ class Coordinator: ObservableObject {
         switch page {
         case .homePage:
             HomePage()
-        case .detail:
-            EmptyView()
+        case .detail(let result):
+            DetailScreen(result: result)
         }
     }
     
@@ -69,6 +85,7 @@ class Coordinator: ObservableObject {
     func buildSheet(sheet: Sheet) -> some View {
         switch sheet {
         case .detail:
+//            DetailScreen()
             EmptyView()
         }
     }
@@ -77,7 +94,7 @@ class Coordinator: ObservableObject {
     func buildCover(cover: FullScreenCover) -> some View {
         switch cover {
         case .HomePage:
-            EmptyView()
+            HomePage()
         }
     }
 }

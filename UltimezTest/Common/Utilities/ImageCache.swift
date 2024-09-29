@@ -8,81 +8,65 @@
 import UIKit
 import SwiftUI
 
-
-struct CachedAsyncImage: View {
-    @StateObject private var loader = ImageLoader()
-    let urlString: String
+@MainActor
+struct AsyncCachedImage<ImageView: View, PlaceholderView: View>: View {
+    // Input dependencies
+    var url: URL?
+    @ViewBuilder var content: (Image) -> ImageView
+    @ViewBuilder var placeholder: () -> PlaceholderView
+    
+    // Downloaded image
+    @State var image: UIImage? = nil
+    
+    init(
+        url: URL?,
+        @ViewBuilder content: @escaping (Image) -> ImageView,
+        @ViewBuilder placeholder: @escaping () -> PlaceholderView
+    ) {
+        self.url = url
+        self.content = content
+        self.placeholder = placeholder
+    }
     
     var body: some View {
-        if let image = loader.image {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 300, height: 200)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-        } else {
-            ProgressView() // Placeholder while the image is loading
-                .frame(width: 300, height: 200)
-                .onAppear {
-                    loader.loadImage(from: urlString)
+        VStack {
+            if let uiImage = image {
+                content(Image(uiImage: uiImage))
+            } else {
+                placeholder()
+                    .onAppear {
+                        Task {
+                            image = await downloadPhoto()
+                        }
+                    }
+            }
+        }
+    }
+    
+    // Downloads if the image is not cached already
+    // Otherwise returns from the cache
+    private func downloadPhoto() async -> UIImage? {
+        do {
+            guard let url else { return nil }
+            
+            // Check if the image is cached already
+            if let cachedResponse = URLCache.shared.cachedResponse(for: .init(url: url)) {
+                return UIImage(data: cachedResponse.data)
+            } else {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                
+                // Save returned image data into the cache
+                URLCache.shared.storeCachedResponse(.init(response: response, data: data), for: .init(url: url))
+                
+                guard let image = UIImage(data: data) else {
+                    return UIImage(systemName: "exclamationmark.octagon")?.withTintColor(.red, renderingMode: .alwaysTemplate)
                 }
-        }
-    }
-}
-
-
-class ImageCache {
-    static let shared = ImageCache()
-    
-    private let cache = NSCache<NSString, UIImage>()
-    
-    private init() {}
-    
-    // Store an image in the cache
-    func setImage(_ image: UIImage, forKey key: String) {
-        cache.setObject(image, forKey: key as NSString)
-    }
-    
-    // Retrieve an image from the cache
-    func getImage(forKey key: String) -> UIImage? {
-        return cache.object(forKey: key as NSString)
-    }
-}
-
-
-class ImageLoader: ObservableObject {
-    @Published var image: UIImage?
-    
-    private var urlString: String?
-    
-    func loadImage(from urlString: String) {
-        self.urlString = urlString
-        
-        // Check if the image exists in the cache
-        if let cachedImage = ImageCache.shared.getImage(forKey: urlString) {
-            self.image = cachedImage
-            return
-        }
-        
-        // If not, download the image
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, let downloadedImage = UIImage(data: data) else {
-                return
+                
+                return image
             }
-            
-            // Cache the downloaded image
-            ImageCache.shared.setImage(downloadedImage, forKey: urlString)
-            
-            // Update the image on the main thread
-            DispatchQueue.main.async {
-                self.image = downloadedImage
-            }
+        } catch {
+            print("Error downloading: \(error)")
+            return nil
         }
-        
-        task.resume()
     }
 }

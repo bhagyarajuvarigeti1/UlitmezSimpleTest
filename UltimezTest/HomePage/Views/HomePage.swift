@@ -9,12 +9,19 @@ import SwiftUI
 
 struct HomePage: View {
     @StateObject var homePageViewModel: HomePageViewModel = HomePageViewModel()
+    @EnvironmentObject var coordinator: Coordinator
     var body: some View {
         ZStack {
             if let data = homePageViewModel.data {
                 List( data.results, id: \.uid) { result in
-                    HomePageCellView(result: result)
+                 
+                        HomePageCellView(result: result)
+                        .onTapGesture {
+                            coordinator.push(page: .detail(result))
+                        }
+                    
                 }
+                .scrollIndicators(.hidden, axes: [.horizontal, .vertical])
                 .listStyle(.plain)
             } else {
                 ProgressView()

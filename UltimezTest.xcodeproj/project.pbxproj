@@ -18,6 +18,8 @@
 		AC8E834A2CA85DCB00C36C6B /* HomePageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E83492CA85DCB00C36C6B /* HomePageModel.swift */; };
 		AC8E834C2CA8753600C36C6B /* HomePageCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E834B2CA8753600C36C6B /* HomePageCellView.swift */; };
 		AC8E834E2CA8FB9800C36C6B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E834D2CA8FB9800C36C6B /* ImageCache.swift */; };
+		AC8E83562CA902D200C36C6B /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E83552CA902D200C36C6B /* DetailScreen.swift */; };
+		AC8E83592CA9915900C36C6B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8E83582CA9915900C36C6B /* StringExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		AC8E83492CA85DCB00C36C6B /* HomePageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageModel.swift; sourceTree = "<group>"; };
 		AC8E834B2CA8753600C36C6B /* HomePageCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageCellView.swift; sourceTree = "<group>"; };
 		AC8E834D2CA8FB9800C36C6B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		AC8E83552CA902D200C36C6B /* DetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
+		AC8E83582CA9915900C36C6B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,7 @@
 		AC8E83292CA8583400C36C6B /* UltimezTest */ = {
 			isa = PBXGroup;
 			children = (
+				AC8E834F2CA9028200C36C6B /* DetailScreen */,
 				AC8E833B2CA8592900C36C6B /* Resources */,
 				AC8E833A2CA8590100C36C6B /* SupportingFiles */,
 				AC8E83392CA8589900C36C6B /* Common */,
@@ -95,6 +100,7 @@
 		AC8E83392CA8589900C36C6B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				AC8E83572CA9913E00C36C6B /* Extensions */,
 				AC8E83452CA85C8D00C36C6B /* Utilities */,
 				AC8E833E2CA85B4900C36C6B /* Views */,
 			);
@@ -158,6 +164,46 @@
 				AC8E83492CA85DCB00C36C6B /* HomePageModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AC8E834F2CA9028200C36C6B /* DetailScreen */ = {
+			isa = PBXGroup;
+			children = (
+				AC8E83532CA902BA00C36C6B /* Models */,
+				AC8E83522CA902B200C36C6B /* ViewModel */,
+				AC8E83502CA9029200C36C6B /* Views */,
+			);
+			path = DetailScreen;
+			sourceTree = "<group>";
+		};
+		AC8E83502CA9029200C36C6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AC8E83552CA902D200C36C6B /* DetailScreen.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AC8E83522CA902B200C36C6B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AC8E83532CA902BA00C36C6B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AC8E83572CA9913E00C36C6B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AC8E83582CA9915900C36C6B /* StringExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC8E83562CA902D200C36C6B /* DetailScreen.swift in Sources */,
 				AC8E83472CA85C9A00C36C6B /* NetworkManager.swift in Sources */,
 				AC8E832D2CA8583400C36C6B /* Coordinator.swift in Sources */,
 				AC8E834C2CA8753600C36C6B /* HomePageCellView.swift in Sources */,
@@ -238,6 +285,7 @@
 				AC8E832B2CA8583400C36C6B /* UltimezTestApp.swift in Sources */,
 				AC8E83402CA85B5900C36C6B /* CoordinatorView.swift in Sources */,
 				AC8E834A2CA85DCB00C36C6B /* HomePageModel.swift in Sources */,
+				AC8E83592CA9915900C36C6B /* StringExtension.swift in Sources */,
 				AC8E83442CA85BE500C36C6B /* HomePageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
