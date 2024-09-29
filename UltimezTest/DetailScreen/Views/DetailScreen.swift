@@ -19,7 +19,7 @@ struct DetailScreen: View {
                         AsyncCachedImage(url: URL(string: imageUrl)) { image in
                             image
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
+                                .aspectRatio(contentMode: .fit)
                         } placeholder: {
                             ProgressView()
                         }

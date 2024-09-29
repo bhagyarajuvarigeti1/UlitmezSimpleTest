@@ -47,7 +47,7 @@ struct AsyncCachedImage<ImageView: View, PlaceholderView: View>: View {
     // Otherwise returns from the cache
     private func downloadPhoto() async -> UIImage? {
         do {
-            guard let url else { return nil }
+            guard let url else { return UIImage(systemName: "exclamationmark.octagon") }
             
             // Check if the image is cached already
             if let cachedResponse = URLCache.shared.cachedResponse(for: .init(url: url)) {
@@ -59,8 +59,8 @@ struct AsyncCachedImage<ImageView: View, PlaceholderView: View>: View {
                 URLCache.shared.storeCachedResponse(.init(response: response, data: data), for: .init(url: url))
                 
                 guard let image = UIImage(data: data) else {
-                    return UIImage(systemName: "exclamationmark.octagon")?.withTintColor(.red, renderingMode: .alwaysTemplate)
-                }
+                    return UIImage(systemName: "exclamationmark.octagon")
+                }                
                 
                 return image
             }
